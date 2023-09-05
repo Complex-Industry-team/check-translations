@@ -3,7 +3,8 @@ const fs = require('fs');
 
 const DEFAULT_NAME = 'translation.json'
 const IGNORED_KEYS = [
-    'draft_complex_industri_maincategory_title'
+    'draft_complex_industri_maincategory_title',
+    'draft_industry_budget00_title'
 ]
 
 
