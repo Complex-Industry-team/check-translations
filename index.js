@@ -20,21 +20,22 @@ files.forEach(fileName => {
 
         // jank method of extracting language code from file name
         var langCode = fileName.substring(fileName.indexOf('_') + 1).replace('.json', '')
-        core.info('language code: ' + langCode)
+        core.debug('language code: ' + langCode)
 
         var json = JSON.parse(fs.readFileSync(fileName, 'utf-8'))
         var keys = json[0][langCode]
 
         for (const defaultKey in defaultTranslations) {
-            if (!defaultKey in keys)
+            core.debug('checking key ' + defaultKey)
+            if (!(defaultKey in keys))
             {
                 missingKeys.push(defaultKey)
-                core.info('missing key ' + defaultKey)
+                core.debug('missing key ' + defaultKey)
             }
             else if (defaultTranslations[defaultKey] === keys[defaultKey])
             {
                 untranslatedKeys.push(defaultKey)
-                core.info('missing translation for ' + defaultKey)
+                core.debug('missing translation for ' + defaultKey)
             }
         }
 
@@ -53,6 +54,8 @@ files.forEach(fileName => {
                 untranslatedKeys: untranslatedKeys
             })
         }
+        core.info('missing keys: ' + missingKeys.length)
+        core.info('untranslated keys: ' + untranslatedKeys.length)
 
     } catch (error) {
         core.error(error.message);
