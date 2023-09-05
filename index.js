@@ -41,7 +41,7 @@ async function run()
                 }
             }
     
-            var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✅' : '❌'
+            var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '❌'
     
             resultsTable.push([
                 langCode,
