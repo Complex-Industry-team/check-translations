@@ -33,7 +33,7 @@ async function run()
             var keys = json[0][langCode]
     
             for (const defaultKey in defaultTranslations) {
-                if (defaultKey in IGNORED_KEYS)
+                if (IGNORED_KEYS.includes(defaultKey))
                     continue
                 core.debug('checking key ' + defaultKey)
                 if (!(defaultKey in keys))
