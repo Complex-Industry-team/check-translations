@@ -46,10 +46,10 @@ async function run()
             resultsTable.push([
                 langCode,
                 success,
-                missingKeys.length,
-                untranslatedKeys.length
+                missingKeys.length.toString(),
+                untranslatedKeys.length.toString()
             ])
-            if (success === false) {
+            if (success === '❌') {
                 incompleteDetails.push({
                     langCode: langCode,
                     missingKeys: missingKeys,
@@ -71,20 +71,20 @@ async function run()
         .addHeading('Incomplete langauges')
     
     incompleteDetails.forEach(details => {
-        summary.addBreak()
-        summary.addRaw('#### ' + details.langCode)
-    
-        var missingKeysString = ''
+        summary.addBreak();
+        summary.addRaw('#### ' + details.langCode);
+
+        var missingKeysString = '';
         details.missingKeys.forEach(key => {
-            missingKeysString += '- ' + key + '\n'
+            missingKeysString += '- ' + key + '\n';
         });
-        summary.addDetails('Missing keys', missingKeysString)
-    
-        var untranslatedKeyString = ''
+        summary.addDetails('Missing keys', missingKeysString);
+
+        var untranslatedKeyString = '';
         details.untranslatedKeys.forEach(key => {
-            untranslatedKeyString += '- ' + key + '\n'
+            untranslatedKeyString += '- ' + key + '\n';
         });
-        summary.addDetails('Untranslated keys', untranslatedKeyString)
+        summary.addDetails('Untranslated keys', untranslatedKeyString);
     });
     
     await summary.write()
