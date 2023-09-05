@@ -5,6 +5,8 @@ const DEFAULT_NAME = 'translation.json'
 
 const defaultJson = JSON.parse(fs.readFileSync(DEFAULT_NAME, 'utf-8'))
 const defaultTranslations = defaultJson[0]['*']
+core.info(JSON.stringify(defaultJson))
+core.info(JSON.stringify(defaultTranslations))
 
 var files = fs.readdirSync('./').filter(name => name.endsWith('.json') && name != DEFAULT_NAME)
 
@@ -32,7 +34,7 @@ files.forEach(fileName => {
                 untranslatedKeys.push(defaultKey)
         }
 
-        var success = (missingKeys.length() == 0 && untranslatedKeys.length() == 0) ? '✅' : '❌'
+        var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✅' : '❌'
 
         resultsTable.push([
             langCode,
