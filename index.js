@@ -68,11 +68,11 @@ async function run()
     core.debug(JSON.stringify())
     var summary = core.summary.addHeading('Translation completeness')
         .addTable(resultsTable)
-        .addHeading('Incomplete langauges')
+        .addHeading('Incomplete languages')
     
     incompleteDetails.forEach(details => {
         summary.addBreak();
-        summary.addRaw('<h4>' + details.langCode + '</h4>');
+        summary.addRaw('<h2>' + details.langCode + '</h2>');
 
         if (details.missingKeys.length > 0)
         {
