@@ -72,21 +72,27 @@ async function run()
     
     incompleteDetails.forEach(details => {
         summary.addBreak();
-        summary.addRaw('#### ' + details.langCode);
+        summary.addRaw('<h4>' + details.langCode + '</h4>');
 
-        var missingKeysString = '<ul>';
-        details.missingKeys.forEach(key => {
-            missingKeysString += '<li>' + key + '</li>';
-        });
-        missingKeysString += '</ul>'
-        summary.addDetails('Missing keys', missingKeysString);
+        if (details.missingKeys.length > 0)
+        {
+            var missingKeysString = '<ul>';
+            details.missingKeys.forEach(key => {
+                missingKeysString += '<li>' + key + '</li>';
+            });
+            missingKeysString += '</ul>'
+            summary.addDetails('Missing keys', missingKeysString);
+        }
 
-        var untranslatedKeyString = '<ul>';
-        details.untranslatedKeys.forEach(key => {
-            untranslatedKeyString += '<li>' + key + '</li>';
-        });
-        untranslatedKeyString += '</ul>'
-        summary.addDetails('Untranslated keys', untranslatedKeyString);
+        if (details.untranslatedKeys.length > 0)
+        {
+            var untranslatedKeyString = '<ul>';
+            details.untranslatedKeys.forEach(key => {
+                untranslatedKeyString += '<li>' + key + '</li>';
+            });
+            untranslatedKeyString += '</ul>'
+            summary.addDetails('Untranslated keys', untranslatedKeyString);
+        }
     });
     
     await summary.write()
