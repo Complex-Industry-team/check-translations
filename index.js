@@ -74,16 +74,18 @@ async function run()
         summary.addBreak();
         summary.addRaw('#### ' + details.langCode);
 
-        var missingKeysString = '';
+        var missingKeysString = '<ul>';
         details.missingKeys.forEach(key => {
-            missingKeysString += '- ' + key + '\n';
+            missingKeysString += '<li>' + key + '</li>';
         });
+        missingKeysString += '</ul>'
         summary.addDetails('Missing keys', missingKeysString);
 
-        var untranslatedKeyString = '';
+        var untranslatedKeyString = '<ul>';
         details.untranslatedKeys.forEach(key => {
-            untranslatedKeyString += '- ' + key + '\n';
+            untranslatedKeyString += '<li>' + key + '</li>';
         });
+        untranslatedKeyString += '</ul>'
         summary.addDetails('Untranslated keys', untranslatedKeyString);
     });
     
