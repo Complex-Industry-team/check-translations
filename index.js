@@ -25,12 +25,12 @@ files.forEach(fileName => {
         var json = JSON.parse(fs.readFileSync(fileName, 'utf-8'))
         var keys = json[0][langCode]
 
-        defaultTranslations.forEach(defaultKey => {
+        for (const defaultKey in defaultTranslations) {
             if (!defaultKey in keys)
                 missingKeys.push(defaultKey)
             else if (defaultTranslations[defaultKey] === keys[defaultKey])
                 untranslatedKeys.push(defaultKey)
-        });
+        }
 
         var success = (missingKeys.length() == 0 && untranslatedKeys.length() == 0) ? '✅' : '❌'
 
