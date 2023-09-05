@@ -2,6 +2,10 @@ const core = require('@actions/core');
 const fs = require('fs');
 
 const DEFAULT_NAME = 'translation.json'
+const IGNORED_KEYS = [
+    'draft_complex_industri_maincategory_title'
+]
+
 
 async function run()
 {
@@ -28,6 +32,8 @@ async function run()
             var keys = json[0][langCode]
     
             for (const defaultKey in defaultTranslations) {
+                if (defaultKey in IGNORED_KEYS)
+                    continue
                 core.debug('checking key ' + defaultKey)
                 if (!(defaultKey in keys))
                 {
