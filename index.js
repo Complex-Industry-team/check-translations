@@ -37,8 +37,8 @@ files.forEach(fileName => {
         resultsTable.push([
             langCode,
             success,
-            missingKeys.length(),
-            untranslatedKeys.length()
+            missingKeys.length,
+            untranslatedKeys.length
         ])
         if (success === false) {
             incompleteDetails.push({
