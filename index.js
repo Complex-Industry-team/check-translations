@@ -74,4 +74,4 @@ incompleteDetails.forEach(details => {
     summary.addDetails('Untranslated keys', untranslatedKeyString)
 });
 
-await summary.write()
+summary.write()
