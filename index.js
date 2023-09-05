@@ -41,7 +41,7 @@ async function run()
                 }
             }
     
-            var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '❌'
+            var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
     
             resultsTable.push([
                 langCode,
@@ -49,7 +49,7 @@ async function run()
                 missingKeys.length.toString(),
                 untranslatedKeys.length.toString()
             ])
-            if (success === '❌') {
+            if (success === '✖') {
                 incompleteDetails.push({
                     langCode: langCode,
                     missingKeys: missingKeys,
