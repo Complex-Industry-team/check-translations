@@ -9,7 +9,7 @@ const IGNORED_KEYS = core.getInput('ignored-keys').split(' ')
 function collectJsons(dir) {
     var jsonFiles = []
     const files = fs.readdirSync(dir, 'utf-8')
-    for (const file in files) {
+    for (const file of files) {
         if (file.startsWith('.'))
             continue
         if (fs.lstatSync(file).isDirectory())
