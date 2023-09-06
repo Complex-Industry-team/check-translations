@@ -1,6 +1,6 @@
 const core = require('@actions/core');
 const fs = require('fs');
-const iso639 = require('iso-639-1');
+const iso639 = require('iso639-1/iso639-1.js');;
 
 
 const IGNORED_KEYS = core.getInput('ignored-keys').split(' ')
