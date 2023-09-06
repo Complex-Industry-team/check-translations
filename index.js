@@ -94,8 +94,8 @@ for (const langCode in translations) {
         var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
 
         resultsTable.push([
-            langCode,
             iso639.getName(langCode),
+            langCode,
             success,
             missingKeys.length.toString(),
             untranslatedKeys.length.toString()
