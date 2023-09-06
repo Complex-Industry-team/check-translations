@@ -146,4 +146,4 @@ incompleteDetails.forEach(details => {
     }
 });
 
-await summary.write()
+summary.write()
