@@ -8,14 +8,14 @@ const IGNORED_KEYS = core.getInput('ignored-keys').split(' ')
 // Collects all json files in the specified folder and subfolders
 function collectJsons(dir) {
     var jsonFiles = []
-    const files = fs.readdirSync(dir, { withFileTypes: true })
+    const files = fs.readdirSync(dir, 'utf-8')
     for (const file in files) {
-        if (file.name.startsWith('.'))
+        if (file.startsWith('.'))
             continue
-        if (file.isDirectory())
-            jsonFiles.push(collectJsons(file.name))
-        else if (file.name.endsWith('.json'))
-            jsonFiles.push(file.name)
+        if (fs.lstatSync(file).isDirectory())
+            jsonFiles.push(collectJsons(file))
+        else if (file.endsWith('.json'))
+            jsonFiles.push(file)
     }
     return jsonFiles
 }
