@@ -1,5 +1,11 @@
 name: 'check-translations'
 description: 'Reads the translations and reports which languages have untranslated keys'
+inputs:
+  ignored-keys:
+    description: 'A space seperated list of keys that will be ignored by the action.'
+    required: false
+    default: ''
 runs:
   using: 'node16'
   main: 'index.js'
+ 
