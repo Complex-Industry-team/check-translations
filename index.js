@@ -63,7 +63,7 @@ if (defaultTranslation === null)
 }
 
 var resultsTable = [
-    [{ data: 'language', header: true }, { data: 'code', header: true}, { data: 'complete', header: true }, { data: 'Missing keys', header: true }, { data: 'Untranslated keys', header: true }]
+    [{ data: 'language', header: true }, { data: 'code', header: true}, { data: 'complete', header: true }, { data: 'Missing keys', header: true }, { data: 'Untranslated keys', header: true }, { data: 'Unused keys', header: true }]
 ]
 var incompleteDetails = []
 
@@ -71,14 +71,14 @@ for (const langCode in translations) {
     core.info('Checking ' + langCode)
     var missingKeys = []
     var untranslatedKeys = []
+    var excessKeys = []
     try
     {
         var keys = translations[langCode]
-
+        
         for (const defaultKey in defaultTranslation) {
             if (IGNORED_KEYS.includes(defaultKey))
                 continue
-            core.debug('checking key ' + defaultKey)
             if (!(defaultKey in keys))
             {
                 missingKeys.push(defaultKey)
@@ -91,6 +91,15 @@ for (const langCode in translations) {
             }
         }
 
+        for (const translatedKey in keys) {
+            if (IGNORED_KEYS.includes(translatedKey))
+                continue
+            if (!(translatedKey in defaultTranslation) {
+                excessKeys.push(excessKeys)
+                core.debug('excess key '+ translatedKey)
+            }
+        }
+
         var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
 
         resultsTable.push([
@@ -98,25 +107,25 @@ for (const langCode in translations) {
             langCode,
             success,
             missingKeys.length.toString(),
-            untranslatedKeys.length.toString()
+            untranslatedKeys.length.toString(),
+            excessKeys.length.toString()
         ])
         if (success === '✖') {
             incompleteDetails.push({
                 langCode: langCode,
                 missingKeys: missingKeys,
-                untranslatedKeys: untranslatedKeys
+                untranslatedKeys: untranslatedKeys,
+                excessKeys: excessKeys
             })
         }
         core.info('missing keys: ' + missingKeys.length)
         core.info('untranslated keys: ' + untranslatedKeys.length)
+        core.info('excess keys: ' + excessKeys.length)
     } catch (error) {
         core.error(error.message);
     }
 }
 
-
-core.debug(JSON.stringify(resultsTable))
-core.debug(JSON.stringify())
 var summary = core.summary.addHeading('Translation completeness')
     .addTable(resultsTable)
     .addHeading('Incomplete languages')
@@ -143,6 +152,15 @@ incompleteDetails.forEach(details => {
         });
         untranslatedKeyString += '</ul>'
         summary.addDetails('Untranslated keys', untranslatedKeyString);
+    }
+
+    if (details.excessKeys.length > 0) {
+        var excessKeyString = '<ul>'
+        details.excessKey.forEach(key => {
+            excessKeyString += '<li>' + key + '</li>';
+        });
+        excessKeyString += '</ul>'
+        summary.addDetails('Unused keys', excessKeyString);
     }
 });
 
