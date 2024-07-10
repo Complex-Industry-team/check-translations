@@ -7,7 +7,7 @@ const IGNORED_KEYS = core.getInput('ignored-keys').split(' ')
 
 // Collects all json files in the specified folder and subfolders
 function collectJsons(dir) {
-    let jsonFiles = []
+    const jsonFiles = []
     const files = fs.readdirSync(dir, 'utf-8')
     for (const file of files) {
         if (file.startsWith('.'))
@@ -21,7 +21,7 @@ function collectJsons(dir) {
 }
 
 const jsonFiles = collectJsons('./')
-let translations = {}
+const translations = {}
 let defaultTranslation = null
 for (const jsonFile of jsonFiles) {
     try {
@@ -57,16 +57,16 @@ if (defaultTranslation === null) {
     return
 }
 
-let resultsTable = [
+const resultsTable = [
     [{ data: 'language', header: true }, { data: 'code', header: true }, { data: 'complete', header: true }, { data: 'Missing keys', header: true }, { data: 'Untranslated keys', header: true }, { data: 'Unused keys', header: true }]
 ]
-let incompleteDetails = []
+const incompleteDetails = []
 
 for (const langCode in translations) {
     core.info('Checking ' + langCode)
-    let missingKeys = []
-    let untranslatedKeys = []
-    let excessKeys = []
+    const missingKeys = []
+    const untranslatedKeys = []
+    const excessKeys = []
     try {
         let keys = translations[langCode]
 
@@ -92,7 +92,7 @@ for (const langCode in translations) {
             }
         }
 
-        let success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
+        const success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
 
         resultsTable.push([
             iso639.getName(langCode),
@@ -118,7 +118,7 @@ for (const langCode in translations) {
     }
 }
 
-let summary = core.summary.addHeading('Translation completeness')
+const summary = core.summary.addHeading('Translation completeness')
     .addTable(resultsTable)
     .addHeading('Incomplete languages')
 
@@ -146,7 +146,7 @@ incompleteDetails.forEach(details => {
 
     if (details.excessKeys.length > 0) {
         let excessKeyString = '<ul>'
-        details.excessKey.forEach(key => {
+        details.excessKeys.forEach(key => {
             excessKeyString += '<li>' + key + '</li>';
         });
         excessKeyString += '</ul>'
