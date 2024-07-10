@@ -7,7 +7,7 @@ const IGNORED_KEYS = core.getInput('ignored-keys').split(' ')
 
 // Collects all json files in the specified folder and subfolders
 function collectJsons(dir) {
-    var jsonFiles = []
+    let jsonFiles = []
     const files = fs.readdirSync(dir, 'utf-8')
     for (const file of files) {
         if (file.startsWith('.'))
@@ -21,14 +21,12 @@ function collectJsons(dir) {
 }
 
 const jsonFiles = collectJsons('./')
-var translations = {}
-var defaultTranslation = null
+let translations = {}
+let defaultTranslation = null
 for (const jsonFile of jsonFiles) {
-    try
-    {
+    try {
         const json = JSON.parse(fs.readFileSync(jsonFile, 'utf-8'))
-        if (Array.isArray(json) === false)
-        {
+        if (Array.isArray(json) === false) {
             core.info(jsonFile + ' does not contain an array.')
             continue
         }
@@ -40,8 +38,7 @@ for (const jsonFile of jsonFiles) {
             for (const key in draft) {
                 if (key === 'type' || key === 'id')
                     continue
-                if (iso639.validate(key))
-                {
+                if (iso639.validate(key)) {
                     translations[key] = draft[key]
                     core.info('detected translation for ' + iso639.getName(key))
                 }
@@ -50,42 +47,37 @@ for (const jsonFile of jsonFiles) {
             }
         }
     }
-    catch
-    {
+    catch {
         core.warning('Unable to get translation content from ' + jsonFile)
     }
 }
 
-if (defaultTranslation === null)
-{
+if (defaultTranslation === null) {
     core.setFailed('Unable to find a default translation!')
     return
 }
 
-var resultsTable = [
-    [{ data: 'language', header: true }, { data: 'code', header: true}, { data: 'complete', header: true }, { data: 'Missing keys', header: true }, { data: 'Untranslated keys', header: true }, { data: 'Unused keys', header: true }]
+let resultsTable = [
+    [{ data: 'language', header: true }, { data: 'code', header: true }, { data: 'complete', header: true }, { data: 'Missing keys', header: true }, { data: 'Untranslated keys', header: true }, { data: 'Unused keys', header: true }]
 ]
-var incompleteDetails = []
+let incompleteDetails = []
 
 for (const langCode in translations) {
     core.info('Checking ' + langCode)
-    var missingKeys = []
-    var untranslatedKeys = []
-    var excessKeys = []
-    try
-    {
-        var keys = translations[langCode]
-        
+    let missingKeys = []
+    let untranslatedKeys = []
+    let excessKeys = []
+    try {
+        let keys = translations[langCode]
+
         for (const defaultKey in defaultTranslation) {
             if (IGNORED_KEYS.includes(defaultKey))
                 continue
-            if (!(defaultKey in keys))
-            {
+            if (!(defaultKey in keys)) {
                 missingKeys.push(defaultKey)
                 core.debug('missing key ' + defaultKey)
             }
-            else if (defaultTranslation[defaultKey] === keys[defaultKey])
-            {
+            else if (defaultTranslation[defaultKey] === keys[defaultKey]) {
                 untranslatedKeys.push(defaultKey)
                 core.debug('missing translation for ' + defaultKey)
             }
@@ -94,13 +86,13 @@ for (const langCode in translations) {
         for (const translatedKey in keys) {
             if (IGNORED_KEYS.includes(translatedKey))
                 continue
-            if (!(translatedKey in defaultTranslation) {
+            if (!(translatedKey in defaultTranslation)) {
                 excessKeys.push(excessKeys)
-                core.debug('excess key '+ translatedKey)
+                core.debug('excess key ' + translatedKey)
             }
         }
 
-        var success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
+        let success = (missingKeys.length == 0 && untranslatedKeys.length == 0) ? '✓🎉' : '✖'
 
         resultsTable.push([
             iso639.getName(langCode),
@@ -126,17 +118,16 @@ for (const langCode in translations) {
     }
 }
 
-var summary = core.summary.addHeading('Translation completeness')
+let summary = core.summary.addHeading('Translation completeness')
     .addTable(resultsTable)
     .addHeading('Incomplete languages')
 
 incompleteDetails.forEach(details => {
     summary.addBreak();
     summary.addRaw('<h2>' + iso639.getName(details.langCode) + ' (' + details.langCode + ')</h2>');
- 
-    if (details.missingKeys.length > 0)
-    {
-        var missingKeysString = '<ul>';
+
+    if (details.missingKeys.length > 0) {
+        let missingKeysString = '<ul>';
         details.missingKeys.forEach(key => {
             missingKeysString += '<li>' + key + '</li>';
         });
@@ -144,9 +135,8 @@ incompleteDetails.forEach(details => {
         summary.addDetails('Missing keys', missingKeysString);
     }
 
-    if (details.untranslatedKeys.length > 0)
-    {
-        var untranslatedKeyString = '<ul>';
+    if (details.untranslatedKeys.length > 0) {
+        let untranslatedKeyString = '<ul>';
         details.untranslatedKeys.forEach(key => {
             untranslatedKeyString += '<li>' + key + '</li>';
         });
@@ -155,7 +145,7 @@ incompleteDetails.forEach(details => {
     }
 
     if (details.excessKeys.length > 0) {
-        var excessKeyString = '<ul>'
+        let excessKeyString = '<ul>'
         details.excessKey.forEach(key => {
             excessKeyString += '<li>' + key + '</li>';
         });
