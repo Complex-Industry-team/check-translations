@@ -1,3 +1,8 @@
+## This project is deprecated and has been replaced by [Complex-Industry-team/check-translations-ts](https://github.com/Complex-Industry-team/check-translations-ts)
+
+
+
+
 Reads the translations for a plugin and reports which languages have untranslated keys.
 
 ### Example workflow
